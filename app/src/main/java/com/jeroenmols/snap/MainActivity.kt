@@ -1,9 +1,9 @@
 package com.jeroenmols.snap
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.jeroenmols.snap.unsplash.api.UnsplashService
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import kotlinx.android.synthetic.main.activity_main.*
