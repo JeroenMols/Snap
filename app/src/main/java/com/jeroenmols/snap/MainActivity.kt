@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.jeroenmols.snap.unsplash.WebService
 import com.jeroenmols.snap.unsplash.api.UnsplashService
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,15 +27,7 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.unsplash.com")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-
-        val unsplashService = retrofit.create(UnsplashService::class.java)
-        val call = unsplashService.listRepos()
-        call.enqueue(MyCallback())
-
+        WebService().getPhotos(MyCallback())
     }
 
     class MyCallback : Callback<List<UnsplashPhoto>> {

@@ -9,5 +9,5 @@ import retrofit2.http.Headers
 interface UnsplashService {
     @Headers("Authorization: Client-ID ${BuildConfig.UNSPLASH_API_KEY}")
     @GET("photos")
-    fun listRepos(): Call<List<UnsplashPhoto>>
+    fun getPhotos(): Call<List<UnsplashPhoto>>
 }
