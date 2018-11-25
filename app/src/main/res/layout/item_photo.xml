@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/imageview_photo"
-        android:layout_width="match_parent" android:layout_height="100dp"
-        tools:src="@drawable/photo_placeholder"/>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/imageview_photo"
+            tools:src="@drawable/placeholder_image"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="16:9"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
