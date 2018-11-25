@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import kotlinx.android.synthetic.main.fragment_photos.*
 
@@ -31,7 +31,7 @@ class PhotosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         photos_recyclerview.adapter = adapter
-        photos_recyclerview.layoutManager = LinearLayoutManager(activity)
+        photos_recyclerview.layoutManager = GridLayoutManager(activity, 2)
     }
 
 }
