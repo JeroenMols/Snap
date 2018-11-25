@@ -33,7 +33,7 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.PhotosViewHolder>() {
         LayoutContainer {
 
         fun bind(photo: UnsplashPhoto) {
-            Picasso.get().load(photo.urls["regular"]).placeholder(R.drawable.placeholder).into(imageview_photo)
+            Picasso.get().load(photo.urls["thumb"]).placeholder(R.drawable.placeholder).into(imageview_photo)
         }
     }
 }

@@ -8,6 +8,6 @@ import retrofit2.http.Headers
 
 interface UnsplashService {
     @Headers("Authorization: Client-ID ${BuildConfig.UNSPLASH_API_KEY}")
-    @GET("photos")
+    @GET("photos?per_page=100")
     fun getPhotos(): Call<List<UnsplashPhoto>>
 }
