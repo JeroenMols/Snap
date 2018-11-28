@@ -1,6 +1,8 @@
 package com.jeroenmols.snap.unsplash
 
+import android.util.Log
 import com.jeroenmols.snap.unsplash.api.UnsplashService
+import com.jeroenmols.snap.unsplash.data.SearchResult
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -21,7 +23,14 @@ class WebService {
     }
 
     fun getPhotos(myCallback: Callback<List<UnsplashPhoto>>) {
+        Log.v("JEROEN", "Doing a network call")
         val call = unsplashService.getPhotos()
+        call.enqueue(myCallback)
+    }
+
+    fun searchPhotos(searchTerm : String, myCallback: Callback<SearchResult>) {
+        Log.v("JEROEN", "Doing a network call")
+        val call = unsplashService.searchPhotos(searchTerm)
         call.enqueue(myCallback)
     }
 }
