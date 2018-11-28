@@ -29,7 +29,7 @@ class PhotosViewModel(private val webService: WebService) : ViewModel() {
     fun search(query : String) {
         webService.searchPhotos(query, object : Callback<SearchResult> {
             override fun onResponse(call: Call<SearchResult>, response: Response<SearchResult>) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                photos.postValue(response.body()!!.results)
             }
 
             override fun onFailure(call: Call<SearchResult>, t: Throwable) {

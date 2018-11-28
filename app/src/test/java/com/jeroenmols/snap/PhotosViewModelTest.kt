@@ -2,6 +2,7 @@ package com.jeroenmols.snap
 
 import com.jeroenmols.snap.testutils.InstantExecutorExtension
 import com.jeroenmols.snap.unsplash.WebService
+import com.jeroenmols.snap.unsplash.data.SearchResult
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import com.nhaarman.mockitokotlin2.*
 import org.assertj.core.api.Assertions.assertThat
@@ -18,7 +19,8 @@ class PhotosViewModelTest {
     @Mock
     lateinit var webService: WebService
 
-    val captor = argumentCaptor<Callback<List<UnsplashPhoto>>>()
+    val photosCaptor = argumentCaptor<Callback<List<UnsplashPhoto>>>()
+    val searchCaptor = argumentCaptor<Callback<SearchResult>>()
 
     @Test
     internal fun `can instantiate`() {
@@ -36,9 +38,9 @@ class PhotosViewModelTest {
     internal fun `should update live data with photos`() {
         val photos = fakePhotoList()
         val viewModel = PhotosViewModel(webService)
-        verify(webService).getPhotos(captor.capture())
+        verify(webService).getPhotos(photosCaptor.capture())
 
-        captor.firstValue.onResponse(mock(), photos.asResponse())
+        photosCaptor.firstValue.onResponse(mock(), photos.asResponse())
 
         assertThat(viewModel.photos.value).isEqualTo(photos)
     }
@@ -50,9 +52,27 @@ class PhotosViewModelTest {
         verify(webService).searchPhotos(eq("lego"), any())
     }
 
+    @Test
+    internal fun `should update live data with photos from search`() {
+        val photos = fakePhotoList()
+        val viewModel = PhotosViewModel(webService)
+        viewModel.search("lego")
+        verify(webService).searchPhotos(eq("lego"), searchCaptor.capture())
+
+        searchCaptor.firstValue.onResponse(mock(), photos.asSearchResponse())
+
+        assertThat(viewModel.photos.value).isEqualTo(photos)
+    }
+
     private fun List<UnsplashPhoto>.asResponse(): Response<List<UnsplashPhoto>> {
         val response: Response<List<UnsplashPhoto>> = mock()
         whenever(response.body()).thenReturn(this)
+        return response
+    }
+
+    private fun List<UnsplashPhoto>.asSearchResponse(): Response<SearchResult> {
+        val response: Response<SearchResult> = mock()
+        whenever(response.body()).thenReturn(SearchResult(this))
         return response
     }
 
