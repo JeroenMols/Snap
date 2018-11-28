@@ -10,8 +10,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import kotlinx.android.synthetic.main.fragment_photos.*
+import kotlin.random.Random
 
 class PhotosFragment : Fragment() {
+
+    private val searchTerms =
+        arrayOf("lego", "android", "cycling", "space", "kids", "house", "splash", "technology", "coffee")
 
     lateinit var viewModel: PhotosViewModel
     lateinit var adapter: PhotosAdapter
@@ -32,7 +36,7 @@ class PhotosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         photos_list.adapter = adapter
         photos_list.layoutManager = GridLayoutManager(activity, 2)
-        photos_search.setOnClickListener { viewModel.search("lego")}
+        photos_search.setOnClickListener { viewModel.search(searchTerms[Random.nextInt(0, searchTerms.size-1)]) }
     }
 
 }
