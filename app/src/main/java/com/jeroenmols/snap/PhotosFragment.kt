@@ -30,8 +30,9 @@ class PhotosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        photos_recyclerview.adapter = adapter
-        photos_recyclerview.layoutManager = GridLayoutManager(activity, 2)
+        photos_list.adapter = adapter
+        photos_list.layoutManager = GridLayoutManager(activity, 2)
+        photos_search.setOnClickListener { viewModel.search("lego")}
     }
 
 }
