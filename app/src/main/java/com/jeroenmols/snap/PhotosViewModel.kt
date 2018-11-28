@@ -3,12 +3,13 @@ package com.jeroenmols.snap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jeroenmols.snap.unsplash.WebService
+import com.jeroenmols.snap.unsplash.data.SearchResult
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PhotosViewModel(webService: WebService) : ViewModel() {
+class PhotosViewModel(private val webService: WebService) : ViewModel() {
 
     val photos = MutableLiveData<List<UnsplashPhoto>>()
 
@@ -19,6 +20,19 @@ class PhotosViewModel(webService: WebService) : ViewModel() {
             }
 
             override fun onFailure(call: Call<List<UnsplashPhoto>>, t: Throwable) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        })
+    }
+
+    fun search(query : String) {
+        webService.searchPhotos(query, object : Callback<SearchResult> {
+            override fun onResponse(call: Call<SearchResult>, response: Response<SearchResult>) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onFailure(call: Call<SearchResult>, t: Throwable) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 

@@ -43,6 +43,13 @@ class PhotosViewModelTest {
         assertThat(viewModel.photos.value).isEqualTo(photos)
     }
 
+    @Test
+    internal fun `should search photos with webservice when search`() {
+        PhotosViewModel(webService).search("lego")
+
+        verify(webService).searchPhotos(eq("lego"), any())
+    }
+
     private fun List<UnsplashPhoto>.asResponse(): Response<List<UnsplashPhoto>> {
         val response: Response<List<UnsplashPhoto>> = mock()
         whenever(response.body()).thenReturn(this)
