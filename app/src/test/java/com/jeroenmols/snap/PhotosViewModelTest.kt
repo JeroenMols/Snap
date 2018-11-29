@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import io.reactivex.Single
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
@@ -20,15 +21,19 @@ class PhotosViewModelTest {
     @Mock
     lateinit var webService: WebService
 
+    @BeforeEach
+    internal fun setUp() {
+        // Called in init to quickly have fresh data so needs to be stubbed for every test
+        whenever(webService.getPhotos()).thenReturn(Single.just(emptyList()))
+    }
+
     @Test
     internal fun `can instantiate`() {
-        whenever(webService.getPhotos()).thenReturn(Single.just(fakePhotoList()))
         PhotosViewModel(webService)
     }
 
     @Test
     internal fun `should load photos when creating`() {
-        whenever(webService.getPhotos()).thenReturn(Single.just(fakePhotoList()))
         PhotosViewModel(webService)
 
         verify(webService).getPhotos()
@@ -46,7 +51,6 @@ class PhotosViewModelTest {
 
     @Test
     internal fun `should search photos with webservice when search`() {
-        whenever(webService.getPhotos()).thenReturn(Single.just(fakePhotoList()))
         whenever(webService.searchPhotos("lego")).thenReturn(Single.just(fakePhotoList()))
 
         PhotosViewModel(webService).search("lego")
@@ -57,7 +61,6 @@ class PhotosViewModelTest {
     @Test
     internal fun `should update live data with photos from search`() {
         val photos = fakePhotoList()
-        whenever(webService.getPhotos()).thenReturn(Single.just(fakePhotoList()))
         whenever(webService.searchPhotos("lego")).thenReturn(Single.just(photos))
         val viewModel = PhotosViewModel(webService)
 
