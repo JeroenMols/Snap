@@ -12,6 +12,6 @@
             android:id="@+id/imageview_photo"
             tools:src="@drawable/placeholder_image"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="16:9"/>
+            app:layout_constraintDimensionRatio="4:3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

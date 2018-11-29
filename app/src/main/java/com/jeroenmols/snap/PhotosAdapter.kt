@@ -1,5 +1,7 @@
 package com.jeroenmols.snap
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +35,8 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.PhotosViewHolder>() {
         LayoutContainer {
 
         fun bind(photo: UnsplashPhoto) {
-            Picasso.get().load(photo.urls["thumb"]).placeholder(R.drawable.placeholder).into(imageview_photo)
+            Picasso.get().load(photo.urls["thumb"])
+                .placeholder(ColorDrawable(Color.parseColor(photo.color))).into(imageview_photo)
         }
     }
 }
