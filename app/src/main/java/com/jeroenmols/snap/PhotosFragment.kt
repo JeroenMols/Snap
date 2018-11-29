@@ -1,21 +1,17 @@
 package com.jeroenmols.snap
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import kotlinx.android.synthetic.main.fragment_photos.*
-import kotlin.random.Random
 
 class PhotosFragment : Fragment() {
-
-    private val searchTerms =
-        arrayOf("lego", "android", "cycling", "space", "kids", "house", "splash", "technology", "coffee")
 
     lateinit var viewModel: PhotosViewModel
     lateinit var adapter: PhotosAdapter
@@ -26,6 +22,7 @@ class PhotosFragment : Fragment() {
         adapter = PhotosAdapter()
 
         viewModel.photos.observe(this, Observer<List<UnsplashPhoto>> { photos -> adapter.photos = photos })
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,10 +30,21 @@ class PhotosFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(photos_toolbar)
         photos_list.adapter = adapter
         photos_list.layoutManager = GridLayoutManager(activity, 2)
-        photos_search.setOnClickListener { viewModel.search(searchTerms[Random.nextInt(0, searchTerms.size-1)]) }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater!!.inflate(R.menu.photos, menu)
+        val searchView = menu!!.findItem(R.id.action_search)!!.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.search(newText!!)
+                return true
+            }
+        })
+    }
 }
