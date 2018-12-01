@@ -1,5 +1,6 @@
 package com.jeroenmols.snap.api
 
+import android.util.Log
 import com.jeroenmols.snap.common.data.Photo
 import com.jeroenmols.snap.common.api.RemoteSource
 import com.jeroenmols.snap.source.pexels.PexelsSource
@@ -11,23 +12,23 @@ class PhotosRepository {
 
     private val sources : List<RemoteSource> = listOf(UnsplashSource(), PexelsSource())
 
-    fun getPhotos(): Single<List<Photo>> {
+    fun getPhotos(): Observable<List<Photo>> {
         return combineResultFromAllSources(RemoteSource::getPhotos)
     }
 
-    fun searchPhotos(searchTerm: String): Single<List<Photo>> {
+    fun searchPhotos(searchTerm: String): Observable<List<Photo>> {
         return combineResultFromAllSources { it.searchPhotos(searchTerm) }
     }
 
-    fun combineResultFromAllSources(function : (t: RemoteSource) -> Single<List<Photo>>) : Single<List<Photo>> {
+    fun combineResultFromAllSources(function : (t: RemoteSource) -> Single<List<Photo>>) : Observable<List<Photo>> {
         val observables = mutableListOf<Observable<List<Photo>>>()
         sources.forEach { observables.add(function(it).toObservable()) }
 
-        return Observable.zip<List<Photo>, List<Photo>>(observables) { t1 ->
-            val all = mutableListOf<Photo>()
-            t1.asList().forEach { all.addAll(it as List<Photo>) }
-            all
-        }.firstOrError()
+        return Observable.merge(observables).scan { a, b -> val mutableList = a.toMutableList()
+            mutableList.addAll(b)
+            Log.d("DEBUG", "showing ${mutableList.size} items")
+            mutableList
+        }
     }
 
 }
