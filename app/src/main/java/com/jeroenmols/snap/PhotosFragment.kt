@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding3.appcompat.queryTextChanges
-import com.jeroenmols.snap.data.Photo
+import com.jeroenmols.snap.common.data.Photo
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_photos.*
 import java.util.concurrent.TimeUnit

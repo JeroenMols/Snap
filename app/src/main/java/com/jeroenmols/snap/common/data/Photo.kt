@@ -1,4 +1,4 @@
-package com.jeroenmols.snap.data
+package com.jeroenmols.snap.common.data
 
 data class Photo(
     val id: String,

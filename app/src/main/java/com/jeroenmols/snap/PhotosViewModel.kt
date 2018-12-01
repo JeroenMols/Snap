@@ -3,7 +3,7 @@ package com.jeroenmols.snap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jeroenmols.snap.api.PhotosRepository
-import com.jeroenmols.snap.data.Photo
+import com.jeroenmols.snap.common.data.Photo
 
 class PhotosViewModel(private val photosRepository: PhotosRepository) : ViewModel() {
 

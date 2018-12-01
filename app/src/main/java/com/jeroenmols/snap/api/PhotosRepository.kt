@@ -1,6 +1,7 @@
 package com.jeroenmols.snap.api
 
-import com.jeroenmols.snap.data.Photo
+import com.jeroenmols.snap.common.data.Photo
+import com.jeroenmols.snap.common.api.RemoteSource
 import com.jeroenmols.snap.source.pexels.PexelsSource
 import com.jeroenmols.snap.source.unsplash.UnsplashSource
 import io.reactivex.Observable

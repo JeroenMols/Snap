@@ -1,7 +1,7 @@
 package com.jeroenmols.snap.source.pexels
 
-import com.jeroenmols.snap.api.RemoteSource
-import com.jeroenmols.snap.data.Photo
+import com.jeroenmols.snap.common.api.RemoteSource
+import com.jeroenmols.snap.common.data.Photo
 import com.jeroenmols.snap.source.pexels.api.PexelsService
 import com.jeroenmols.snap.source.pexels.data.PexelsPhoto
 import io.reactivex.Single

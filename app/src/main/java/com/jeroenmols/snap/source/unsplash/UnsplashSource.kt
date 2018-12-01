@@ -1,7 +1,7 @@
 package com.jeroenmols.snap.source.unsplash
 
-import com.jeroenmols.snap.api.RemoteSource
-import com.jeroenmols.snap.data.Photo
+import com.jeroenmols.snap.common.api.RemoteSource
+import com.jeroenmols.snap.common.data.Photo
 import com.jeroenmols.snap.source.unsplash.api.UnsplashService
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
@@ -35,7 +35,6 @@ class UnsplashSource : RemoteSource {
 
     override fun searchPhotos(searchTerm: String): Single<List<Photo>> =
         service.searchPhotos(searchTerm).map { it.results.toPhotos() }
-
 
     private fun List<UnsplashPhoto>.toPhotos(): List<Photo> {
         return this.map { Photo(it.id, it.urls["thumb"]!!, it.urls["full"]!!, it.color) }

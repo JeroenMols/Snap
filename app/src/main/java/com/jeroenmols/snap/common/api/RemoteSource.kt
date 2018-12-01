@@ -1,6 +1,6 @@
-package com.jeroenmols.snap.api
+package com.jeroenmols.snap.common.api
 
-import com.jeroenmols.snap.data.Photo
+import com.jeroenmols.snap.common.data.Photo
 import io.reactivex.Single
 
 interface RemoteSource {
