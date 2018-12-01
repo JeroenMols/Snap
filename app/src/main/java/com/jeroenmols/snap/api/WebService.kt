@@ -1,5 +1,6 @@
 package com.jeroenmols.snap.api
 
+import com.jeroenmols.snap.data.Photo
 import com.jeroenmols.snap.source.unsplash.api.UnsplashService
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
@@ -29,8 +30,12 @@ class WebService {
         unsplashService = retrofit.create(UnsplashService::class.java)
     }
 
-    fun getPhotos(): Single<List<UnsplashPhoto>> = unsplashService.getPhotos()
+    fun getPhotos(): Single<List<Photo>> = unsplashService.getPhotos().map(this::convertToPhotos)
 
-    fun searchPhotos(searchTerm: String): Single<List<UnsplashPhoto>> =
-        unsplashService.searchPhotos(searchTerm).map { it.results }
+    fun searchPhotos(searchTerm: String): Single<List<Photo>> =
+        unsplashService.searchPhotos(searchTerm).map { it.results }.map(this::convertToPhotos)
+
+    private fun convertToPhotos(list: List<UnsplashPhoto>): List<Photo> {
+        return list.map { Photo(it.id, it.urls["thumb"]!!, it.urls["full"]!!, it.color) }
+    }
 }

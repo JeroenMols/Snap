@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
+import com.jeroenmols.snap.data.Photo
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_photo.*
 
 class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.PhotosViewHolder>() {
 
-    var photos: List<UnsplashPhoto> = emptyList()
+    var photos: List<Photo> = emptyList()
         set(value) {
             notifyDataSetChanged()
             field = value
@@ -34,8 +34,8 @@ class PhotosAdapter : RecyclerView.Adapter<PhotosAdapter.PhotosViewHolder>() {
     class PhotosViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        fun bind(photo: UnsplashPhoto) {
-            Picasso.get().load(photo.urls["thumb"])
+        fun bind(photo: Photo) {
+            Picasso.get().load(photo.thumbSrc)
                 .placeholder(ColorDrawable(Color.parseColor(photo.color))).into(imageview_photo)
         }
     }

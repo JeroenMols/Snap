@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jakewharton.rxbinding3.appcompat.queryTextChanges
-import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
+import com.jeroenmols.snap.data.Photo
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_photos.*
 import java.util.concurrent.TimeUnit
@@ -26,7 +26,7 @@ class PhotosFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, PhotosViewModelFactory()).get(PhotosViewModel::class.java)
         adapter = PhotosAdapter()
 
-        viewModel.photos.observe(this, Observer<List<UnsplashPhoto>> { photos -> adapter.photos = photos })
+        viewModel.photos.observe(this, Observer<List<Photo>> { photos -> adapter.photos = photos })
         setHasOptionsMenu(true)
     }
 
