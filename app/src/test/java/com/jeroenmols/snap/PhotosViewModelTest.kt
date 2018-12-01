@@ -15,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class, InstantExecutorExtension::class, ImmediateRxSchedulersExtension::class)
+@ExtendWith(MockitoExtension::class, InstantExecutorExtension::class    )
 class PhotosViewModelTest {
 
     @Mock

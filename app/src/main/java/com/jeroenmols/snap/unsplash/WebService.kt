@@ -5,6 +5,7 @@ import com.jeroenmols.snap.unsplash.api.UnsplashService
 import com.jeroenmols.snap.unsplash.data.SearchResult
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -18,7 +19,7 @@ class WebService {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.unsplash.com")
             .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
 
         unsplashService = retrofit.create(UnsplashService::class.java)
