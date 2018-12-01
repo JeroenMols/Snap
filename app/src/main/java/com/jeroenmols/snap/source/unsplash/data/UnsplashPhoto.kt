@@ -1,4 +1,4 @@
-package com.jeroenmols.snap.unsplash.data
+package com.jeroenmols.snap.source.unsplash.data
 
 data class UnsplashPhoto(
     val id: String,

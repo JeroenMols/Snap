@@ -2,8 +2,8 @@ package com.jeroenmols.snap
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.jeroenmols.snap.unsplash.WebService
-import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
+import com.jeroenmols.snap.api.WebService
+import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 
 class PhotosViewModel(private val webService: WebService) : ViewModel() {
 

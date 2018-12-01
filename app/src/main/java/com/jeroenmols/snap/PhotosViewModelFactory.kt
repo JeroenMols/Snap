@@ -2,7 +2,7 @@ package com.jeroenmols.snap
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.jeroenmols.snap.unsplash.WebService
+import com.jeroenmols.snap.api.WebService
 import java.lang.RuntimeException
 
 class PhotosViewModelFactory : ViewModelProvider.Factory {

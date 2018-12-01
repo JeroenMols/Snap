@@ -1,8 +1,7 @@
-package com.jeroenmols.snap.unsplash
+package com.jeroenmols.snap.api
 
-import android.util.Log
-import com.jeroenmols.snap.unsplash.api.UnsplashService
-import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
+import com.jeroenmols.snap.source.unsplash.api.UnsplashService
+import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient

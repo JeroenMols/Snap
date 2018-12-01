@@ -1,9 +1,8 @@
 package com.jeroenmols.snap
 
-import com.jeroenmols.snap.testutils.ImmediateRxSchedulersExtension
 import com.jeroenmols.snap.testutils.InstantExecutorExtension
-import com.jeroenmols.snap.unsplash.WebService
-import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
+import com.jeroenmols.snap.api.WebService
+import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever

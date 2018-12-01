@@ -1,7 +1,7 @@
-package com.jeroenmols.snap.pexels.api
+package com.jeroenmols.snap.source.pexels.api
 
 import com.jeroenmols.snap.BuildConfig
-import com.jeroenmols.snap.pexels.data.SearchResult
+import com.jeroenmols.snap.source.pexels.data.SearchResult
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers

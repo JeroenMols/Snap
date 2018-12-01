@@ -1,8 +1,8 @@
-package com.jeroenmols.snap.unsplash.api
+package com.jeroenmols.snap.source.unsplash.api
 
 import com.jeroenmols.snap.BuildConfig
-import com.jeroenmols.snap.unsplash.data.SearchResult
-import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
+import com.jeroenmols.snap.source.unsplash.data.SearchResult
+import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers

@@ -1,4 +1,4 @@
-package com.jeroenmols.snap.pexels.data
+package com.jeroenmols.snap.source.pexels.data
 
 data class PexelsPhoto(
     val id : Int,
