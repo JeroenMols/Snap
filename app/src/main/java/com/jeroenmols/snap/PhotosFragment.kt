@@ -8,13 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jakewharton.rxbinding3.appcompat.queryTextChanges
 import com.jeroenmols.snap.unsplash.data.UnsplashPhoto
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_photos.*
+import java.util.concurrent.TimeUnit
 
 class PhotosFragment : Fragment() {
 
     lateinit var viewModel: PhotosViewModel
     lateinit var adapter: PhotosAdapter
+
+    val disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +43,13 @@ class PhotosFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater!!.inflate(R.menu.photos, menu)
         val searchView = menu!!.findItem(R.id.action_search)!!.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean = false
+        disposables.add(searchView.queryTextChanges().skipInitialValue()
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .subscribe { viewModel.search(it.toString()) })
+    }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.search(newText!!)
-                return true
-            }
-        })
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposables.clear()
     }
 }
