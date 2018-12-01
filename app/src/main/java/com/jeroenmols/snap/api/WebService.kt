@@ -1,41 +1,50 @@
 package com.jeroenmols.snap.api
 
 import com.jeroenmols.snap.data.Photo
-import com.jeroenmols.snap.source.unsplash.api.UnsplashService
+import com.jeroenmols.snap.source.pexels.PexelsWebService
+import com.jeroenmols.snap.source.pexels.data.PexelsPhoto
+import com.jeroenmols.snap.source.unsplash.UnsplashWebService
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
+import io.reactivex.functions.BiFunction
 
 class WebService {
 
-    private val unsplashService: UnsplashService
+    private val unsplashService: UnsplashWebService
+    private val pexelsService: PexelsWebService
 
     init {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        val retrofit = Retrofit.Builder()
-            .client(client)
-            .baseUrl(UnsplashService.BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .build()
-
-        unsplashService = retrofit.create(UnsplashService::class.java)
+        unsplashService = UnsplashWebService()
+        pexelsService = PexelsWebService()
     }
 
-    fun getPhotos(): Single<List<Photo>> = unsplashService.getPhotos().map(this::convertToPhotos)
+    fun getPhotos(): Single<List<Photo>> {
+        val unsplash = unsplashService.getPhotos().map(this::convertUnsplashToPhotos)
+        val pexels = pexelsService.getPhotos().map(this::convertPexelsToPhotos)
+        return unsplash.zipWith(pexels, BiFunction { a: List<Photo>, b: List<Photo> ->
+            val all = mutableListOf<Photo>()
+            all.addAll(a)
+            all.addAll(b)
+            all
+        })
+    }
 
-    fun searchPhotos(searchTerm: String): Single<List<Photo>> =
-        unsplashService.searchPhotos(searchTerm).map { it.results }.map(this::convertToPhotos)
+    fun searchPhotos(searchTerm: String): Single<List<Photo>> {
+        val unsplash = unsplashService.searchPhotos(searchTerm).map(this::convertUnsplashToPhotos)
+        val pexels = pexelsService.searchPhotos(searchTerm).map(this::convertPexelsToPhotos)
+        return unsplash.zipWith(pexels, BiFunction { a: List<Photo>, b: List<Photo> ->
+            val all = mutableListOf<Photo>()
+            all.addAll(a)
+            all.addAll(b)
+            all
+        })
+    }
 
-    private fun convertToPhotos(list: List<UnsplashPhoto>): List<Photo> {
+    private fun convertUnsplashToPhotos(list: List<UnsplashPhoto>): List<Photo> {
         return list.map { Photo(it.id, it.urls["thumb"]!!, it.urls["full"]!!, it.color) }
+    }
+
+    private fun convertPexelsToPhotos(list: List<PexelsPhoto>): List<Photo> {
+        return list.map { Photo("${it.id}", it.src["tiny"]!!, it.src["large2x"]!!, "#ffffff") }
     }
 }
