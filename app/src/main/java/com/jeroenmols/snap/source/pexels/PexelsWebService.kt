@@ -1,5 +1,6 @@
 package com.jeroenmols.snap.source.pexels
 
+import com.jeroenmols.snap.api.SourceWebService
 import com.jeroenmols.snap.data.Photo
 import com.jeroenmols.snap.source.pexels.api.PexelsService
 import com.jeroenmols.snap.source.pexels.data.PexelsPhoto
@@ -11,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class PexelsWebService {
+class PexelsWebService : SourceWebService {
 
     private val service: PexelsService
 
@@ -30,9 +31,9 @@ class PexelsWebService {
         service = retrofit.create(PexelsService::class.java)
     }
 
-    fun getPhotos(): Single<List<Photo>> = service.getPhotos().map { it.photos.toPhotos() }
+    override fun getPhotos(): Single<List<Photo>> = service.getPhotos().map { it.photos.toPhotos() }
 
-    fun searchPhotos(searchTerm: String): Single<List<Photo>> =
+    override fun searchPhotos(searchTerm: String): Single<List<Photo>> =
         service.searchPhotos(searchTerm).map { it.photos.toPhotos() }
 
     private fun List<PexelsPhoto>.toPhotos(): List<Photo> {

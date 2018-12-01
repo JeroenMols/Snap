@@ -1,5 +1,6 @@
 package com.jeroenmols.snap.source.unsplash
 
+import com.jeroenmols.snap.api.SourceWebService
 import com.jeroenmols.snap.data.Photo
 import com.jeroenmols.snap.source.unsplash.api.UnsplashService
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
@@ -11,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class UnsplashWebService {
+class UnsplashWebService : SourceWebService {
 
     private val service: UnsplashService
 
@@ -30,9 +31,9 @@ class UnsplashWebService {
         service = retrofit.create(UnsplashService::class.java)
     }
 
-    fun getPhotos(): Single<List<Photo>> = service.getPhotos().map { it.toPhotos() }
+    override fun getPhotos(): Single<List<Photo>> = service.getPhotos().map { it.toPhotos() }
 
-    fun searchPhotos(searchTerm: String): Single<List<Photo>> =
+    override fun searchPhotos(searchTerm: String): Single<List<Photo>> =
         service.searchPhotos(searchTerm).map { it.results.toPhotos() }
 
 
