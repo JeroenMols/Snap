@@ -1,7 +1,7 @@
 package com.jeroenmols.snap
 
 import com.jeroenmols.snap.testutils.InstantExecutorExtension
-import com.jeroenmols.snap.api.WebService
+import com.jeroenmols.snap.api.PhotosRepository
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
@@ -18,50 +18,50 @@ import org.mockito.junit.jupiter.MockitoExtension
 class PhotosViewModelTest {
 
     @Mock
-    lateinit var webService: WebService
+    lateinit var photosRepository: PhotosRepository
 
     @BeforeEach
     internal fun setUp() {
         // Called in init to quickly have fresh data so needs to be stubbed for every test
-        whenever(webService.getPhotos()).thenReturn(Single.just(emptyList()))
+        whenever(photosRepository.getPhotos()).thenReturn(Single.just(emptyList()))
     }
 
     @Test
     internal fun `can instantiate`() {
-        PhotosViewModel(webService)
+        PhotosViewModel(photosRepository)
     }
 
     @Test
     internal fun `should load photos when creating`() {
-        PhotosViewModel(webService)
+        PhotosViewModel(photosRepository)
 
-        verify(webService).getPhotos()
+        verify(photosRepository).getPhotos()
     }
 
     @Test
     internal fun `should update live data with photos`() {
         val photos = fakePhotoList()
-        whenever(webService.getPhotos()).thenReturn(Single.just(photos))
+        whenever(photosRepository.getPhotos()).thenReturn(Single.just(photos))
 
-        val viewModel = PhotosViewModel(webService)
+        val viewModel = PhotosViewModel(photosRepository)
 
         assertThat(viewModel.photos.value).isEqualTo(photos)
     }
 
     @Test
     internal fun `should search photos with webservice when search`() {
-        whenever(webService.searchPhotos("lego")).thenReturn(Single.just(fakePhotoList()))
+        whenever(photosRepository.searchPhotos("lego")).thenReturn(Single.just(fakePhotoList()))
 
-        PhotosViewModel(webService).search("lego")
+        PhotosViewModel(photosRepository).search("lego")
 
-        verify(webService).searchPhotos(eq("lego"))
+        verify(photosRepository).searchPhotos(eq("lego"))
     }
 
     @Test
     internal fun `should update live data with photos from search`() {
         val photos = fakePhotoList()
-        whenever(webService.searchPhotos("lego")).thenReturn(Single.just(photos))
-        val viewModel = PhotosViewModel(webService)
+        whenever(photosRepository.searchPhotos("lego")).thenReturn(Single.just(photos))
+        val viewModel = PhotosViewModel(photosRepository)
 
         viewModel.search("lego")
 
