@@ -22,13 +22,12 @@ class WebService {
 
         val retrofit = Retrofit.Builder()
             .client(client)
-            .baseUrl("https://api.unsplash.com")
+            .baseUrl(UnsplashService.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
 
         unsplashService = retrofit.create(UnsplashService::class.java)
-
     }
 
     fun getPhotos(): Single<List<UnsplashPhoto>> = unsplashService.getPhotos()

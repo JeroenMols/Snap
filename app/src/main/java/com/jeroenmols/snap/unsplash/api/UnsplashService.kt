@@ -9,6 +9,11 @@ import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface UnsplashService {
+
+    companion object {
+        const val BASE_URL = "https://api.unsplash.com"
+    }
+
     @Headers("Authorization: Client-ID ${BuildConfig.UNSPLASH_API_KEY}")
     @GET("photos?per_page=100")
     fun getPhotos(): Single<List<UnsplashPhoto>>
