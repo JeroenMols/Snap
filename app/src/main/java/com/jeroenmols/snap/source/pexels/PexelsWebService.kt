@@ -1,5 +1,6 @@
 package com.jeroenmols.snap.source.pexels
 
+import com.jeroenmols.snap.data.Photo
 import com.jeroenmols.snap.source.pexels.api.PexelsService
 import com.jeroenmols.snap.source.pexels.data.PexelsPhoto
 import io.reactivex.Single
@@ -29,8 +30,12 @@ class PexelsWebService {
         service = retrofit.create(PexelsService::class.java)
     }
 
-    fun getPhotos(): Single<List<PexelsPhoto>> = service.getPhotos().map { it.photos }
+    fun getPhotos(): Single<List<Photo>> = service.getPhotos().map { it.photos.toPhotos() }
 
-    fun searchPhotos(searchTerm: String): Single<List<PexelsPhoto>> =
-        service.searchPhotos(searchTerm).map { it.photos }
+    fun searchPhotos(searchTerm: String): Single<List<Photo>> =
+        service.searchPhotos(searchTerm).map { it.photos.toPhotos() }
+
+    private fun List<PexelsPhoto>.toPhotos(): List<Photo> {
+        return this.map { Photo("${it.id}", it.src["tiny"]!!, it.src["large2x"]!!, "#ffffff") }
+    }
 }

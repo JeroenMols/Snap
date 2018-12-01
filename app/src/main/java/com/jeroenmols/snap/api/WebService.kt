@@ -5,8 +5,8 @@ import com.jeroenmols.snap.source.pexels.PexelsWebService
 import com.jeroenmols.snap.source.pexels.data.PexelsPhoto
 import com.jeroenmols.snap.source.unsplash.UnsplashWebService
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
+import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 
 class WebService {
 
@@ -19,32 +19,23 @@ class WebService {
     }
 
     fun getPhotos(): Single<List<Photo>> {
-        val unsplash = unsplashService.getPhotos().map(this::convertUnsplashToPhotos)
-        val pexels = pexelsService.getPhotos().map(this::convertPexelsToPhotos)
-        return unsplash.zipWith(pexels, BiFunction { a: List<Photo>, b: List<Photo> ->
+        val unsplash = unsplashService.getPhotos().toObservable()
+        val pexels = pexelsService.getPhotos().toObservable()
+        return Observable.zip<List<Photo>, List<Photo>>(listOf(pexels, unsplash)) { t1 ->
             val all = mutableListOf<Photo>()
-            all.addAll(a)
-            all.addAll(b)
+            t1.asList().forEach { all.addAll(it as List<Photo>) }
             all
-        })
+        }.firstOrError()
     }
 
     fun searchPhotos(searchTerm: String): Single<List<Photo>> {
-        val unsplash = unsplashService.searchPhotos(searchTerm).map(this::convertUnsplashToPhotos)
-        val pexels = pexelsService.searchPhotos(searchTerm).map(this::convertPexelsToPhotos)
-        return unsplash.zipWith(pexels, BiFunction { a: List<Photo>, b: List<Photo> ->
+        val unsplash = unsplashService.searchPhotos(searchTerm).toObservable()
+        val pexels = pexelsService.searchPhotos(searchTerm).toObservable()
+        return Observable.zip<List<Photo>, List<Photo>>(listOf(pexels, unsplash)) { t1 ->
             val all = mutableListOf<Photo>()
-            all.addAll(a)
-            all.addAll(b)
+            t1.asList().forEach { all.addAll(it as List<Photo>) }
             all
-        })
+        }.firstOrError()
     }
 
-    private fun convertUnsplashToPhotos(list: List<UnsplashPhoto>): List<Photo> {
-        return list.map { Photo(it.id, it.urls["thumb"]!!, it.urls["full"]!!, it.color) }
-    }
-
-    private fun convertPexelsToPhotos(list: List<PexelsPhoto>): List<Photo> {
-        return list.map { Photo("${it.id}", it.src["tiny"]!!, it.src["large2x"]!!, "#ffffff") }
-    }
 }
