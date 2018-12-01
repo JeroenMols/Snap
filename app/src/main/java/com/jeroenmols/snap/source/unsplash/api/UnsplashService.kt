@@ -1,7 +1,7 @@
 package com.jeroenmols.snap.source.unsplash.api
 
 import com.jeroenmols.snap.BuildConfig
-import com.jeroenmols.snap.source.unsplash.data.SearchResult
+import com.jeroenmols.snap.source.unsplash.data.UnsplashSearchResult
 import com.jeroenmols.snap.source.unsplash.data.UnsplashPhoto
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -20,5 +20,5 @@ interface UnsplashService {
 
     @Headers("Authorization: Client-ID ${BuildConfig.UNSPLASH_API_KEY}")
     @GET("search/photos?per_page=100")
-    fun searchPhotos(@Query("query") searchTerm: String): Single<SearchResult>
+    fun searchPhotos(@Query("query") searchTerm: String): Single<UnsplashSearchResult>
 }

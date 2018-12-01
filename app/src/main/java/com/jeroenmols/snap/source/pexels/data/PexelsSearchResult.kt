@@ -1,5 +1,5 @@
 package com.jeroenmols.snap.source.pexels.data
 
-data class SearchResult(
+data class PexelsSearchResult(
     val photos: List<PexelsPhoto>
 )

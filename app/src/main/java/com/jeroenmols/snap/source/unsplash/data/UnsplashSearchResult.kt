@@ -1,5 +1,5 @@
 package com.jeroenmols.snap.source.unsplash.data
 
-data class SearchResult(
+data class UnsplashSearchResult(
     val results : List<UnsplashPhoto>
 )
