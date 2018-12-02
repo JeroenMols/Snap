@@ -26,9 +26,8 @@ class PhotosRepository {
 
         return Observable.merge(observables).scan { a, b -> val mutableList = a.toMutableList()
             mutableList.addAll(b)
-            Log.d("DEBUG", "showing ${mutableList.size} items")
             mutableList
-        }
+        }.doOnNext { Log.d("DEBUG", "showing ${it.size} items") }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.jeroenmols.snap
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.jeroenmols.snap.api.PhotosRepository
@@ -10,10 +11,10 @@ class PhotosViewModel(private val photosRepository: PhotosRepository) : ViewMode
     val photos = MutableLiveData<List<Photo>>()
 
     init {
-        photosRepository.getPhotos().subscribe(photos::postValue)
+        photosRepository.getPhotos().subscribe(photos::postValue, {}, { Log.d("DEBUG", "Subscription completed") })
     }
 
     fun search(query: String) {
-        photosRepository.searchPhotos(query).subscribe(photos::postValue)
+        photosRepository.searchPhotos(query).subscribe(photos::postValue, {}, { Log.d("DEBUG", "Subscription completed") })
     }
 }
